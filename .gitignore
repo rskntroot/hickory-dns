@@ -1,0 +1,4 @@
+.env
+/etc/zones/*.com
+/etc/zones/*.io
+/etc/zones/*.arpa

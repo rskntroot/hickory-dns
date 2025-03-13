@@ -1,0 +1,10 @@
+services:
+  dns:
+    build: .
+    volumes:
+      - ./etc:/etc/hickory/
+    environment:
+      - "UPSTREAM_DNS=${UPSTREAM}" # not yet implemeneted
+    ports:
+      - ${IP_ADDR}:53:53/udp
+      - ${IP_ADDR}:53:53/tcp

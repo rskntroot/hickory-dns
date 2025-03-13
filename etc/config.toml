@@ -1,0 +1,46 @@
+[server]
+listen_addrs = ["0.0.0.0"]
+listen_port = 53
+protocols = ["udp", "tcp"]
+
+[[zones]]
+zone = "."
+zone_type = "Forward"
+
+[zones.stores]
+type = "forward"
+
+[[zones.stores.name_servers]]
+socket_addr = "1.1.1.1:53"
+protocol = "udp"
+trust_negative_responses = false
+
+[[zones.stores.name_servers]]
+socket_addr = "1.1.1.1:53"
+protocol = "tcp"
+trust_negative_responses = false
+
+[[zones.stores.name_servers]]
+socket_addr = "8.8.8.8:53"
+protocol = "udp"
+trust_negative_responses = false
+
+[[zones.stores.name_servers]]
+socket_addr = "8.8.8.8:53"
+protocol = "tcp"
+trust_negative_responses = false
+
+[[zones]]
+zone = "rskio.com"
+zone_type = "Primary"
+file = "/etc/hickory/zones/rskio.com"
+
+[[zones]]
+zone = "rsk.io"
+zone_type = "Primary"
+file = "/etc/hickory/zones/rsk.io"
+
+[[zones]]
+zone = "1.168.192.in-addr.arpa"
+zone_type = "Primary"
+file = "/etc/hickory/zones/1.168.192.in-addr.arpa"
