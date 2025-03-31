@@ -2,3 +2,5 @@
 /etc/zones/*.com
 /etc/zones/*.io
 /etc/zones/*.arpa
+/etc/config.toml
+/etc/blocklists
