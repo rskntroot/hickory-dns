@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:latest AS builder
 
 RUN apk add --no-cache \
     build-base \
@@ -6,15 +6,18 @@ RUN apk add --no-cache \
     openssl-dev \
     rust cargo
 
-# Install Hickory DNS Server
-RUN cargo install hickory-dns
-RUN /root/.cargo/bin/hickory-dns -V
+RUN apk add --no-cache git
 
-# Create directory for configuration
-RUN mkdir -p /etc/hickory
+RUN cd /root && git clone https://github.com/hickory-dns/hickory-dns.git
 
-# Expose DNS and Web ports
+RUN cd /root/hickory-dns && cargo build --bin hickory-dns --features=blocklist --release
+
+FROM alpine:latest
+
+RUN apk add --no-cache curl libgcc
+
+COPY --from=builder /root/hickory-dns/target/release/hickory-dns /usr/local/bin/hickory-dns
+
 EXPOSE 53/udp 53/tcp 443/tcp 443/udp
 
-# Run Hickory on startup
-CMD ["/root/.cargo/bin/hickory-dns", "--debug", "--config", "/etc/hickory/config.toml"]
+CMD ["/etc/hickory/entrypoint.sh"]

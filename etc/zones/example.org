@@ -1,22 +1,23 @@
-; replace the hickory-dns.org with your own name
-@   IN          SOA     hickory-dns.org. root.hickory-dns.org. (
-        199609203 ; Serial
-        8h        ; Refresh
-        120m      ; Retry
-        7d        ; Expire
-        24h)      ; Minimum TTL
-                NS      bbb
-                MX      1 alias
-                ANAME   www
-www             A       127.0.0.1
-                AAAA    ::1
-bbb             A       127.0.0.2
-this.has.dots   A       127.0.0.3
-alias           CNAME   www
-alias-chain     CNAME   alias
-aname-chain     ANAME   alias
+$ORIGIN example.org.
+$TTL 86400
+@   IN  SOA ns1.example.org. root.example.org. (
+        2024031201  ; Serial
+        3600        ; Refresh
+        1800        ; Retry
+        1209600     ; Expire
+        86400 )     ; Minimum TTL
+    IN  NS  ns1.example.org
 
-; _Service._Proto.Name TTL Class SRV Priority Weight Port Target
-server          SRV     1 1 443 alias
-*.wildcard      CNAME   www
-no-service 86400 IN MX 0 .
+; Name Servers
+ns1     IN  A   192.168.1.5
+
+; A Records
+@       IN  A   192.168.1.6
+
+; CNAME Records
+www     IN  CNAME   example.org.
+
+; Defaults
+localhost.  A        127.0.0.1
+            AAAA     ::1
+1           PTR     localhost.

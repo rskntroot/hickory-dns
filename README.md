@@ -12,25 +12,28 @@ edit .env file as necessary
 docker compose up -d
 ```
 
+## Notes
+
+`entrypoint.sh` will skip `config.toml` creation if that file exists so you can edit it safely
+
+`zones/example.org` is ingored during config gen
+
+## Create Zone
+
+set domain to your domain
+
+``` bash
+domain=rskio.com
+```
+
+``` bash
+cd etc/zones
+cp example.org ${domain}
+```
+
+you now have a persistent standard zone file for adding records
+
 ## TODO
-
-### entrypoint.sh
-
-- check env for upstream servers
-  - add upstream to config.toml
-
-- check env for blocklists
-  - curl blocklists to /opt/lists/
-  - add blocklists to config.toml
-
-- check for zone files in
-  - load zones from default
-  - add zones to config.toml
-
-### docker
-
-- docker image is too big
-  - remove compiler pkgs after build
 
 ### dns over https
 
